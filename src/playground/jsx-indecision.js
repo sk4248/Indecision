@@ -1,60 +1,57 @@
-console.log("app.js is running");
+console.log('App.js is running!');
 
-
-const app ={
-    title:'Indecision App',
-    subtitle: 'Put your life in the safe hands of a computer',
-    options:[]
+const app = {
+  title: 'Indecision App',
+  subtitle: 'Put your life in the hands of a computer',
+  options: []
 };
 
-const appRoot = document.getElementById("app");
+const onFormSubmit = (e) => {
+  e.preventDefault();
 
-const onFormSubmit =(e)=>{
+  const option = e.target.elements.option.value;
 
-    e.preventDefault();
-const option = e.target.elements.option.value;
-if(option){
+  if (option) {
     app.options.push(option);
     e.target.elements.option.value = '';
-}
-reactRendercall();
+    render();
+  }
 };
 
-const removeAll = () =>{
-   app.options =[];
-   reactRendercall();
+const onRemoveAll = () => {
+  app.options = [];
+  render();
 };
 
-const onMakeDecision =()=>{
-    const randNumber = Math.floor(Math.random()*app.options.length);
-    alert(app.options[randNumber]);
-}
-
-
-const numbers = [24,66,890];
-const reactRendercall = ()=>{
-
-    const template =(
-        <div>
-            <h1>{app.title}</h1>
-            {app.subtitle&&<p> {app.subtitle}</p>}
-            <p>{app.options.length>0? "Here are your options" : "No options to display"}</p>
-            <p>{app.options.length}</p>
-            <button disabled={app.options.length ===0} onClick={onMakeDecision}>What Should I do?</button>
-            <button onClick={removeAll}>Remove All</button>
-            
-            <ol>
-                {app.options.map((str)=>{
-                    return <li key={str}>{str}</li>
-                })}
-            </ol>
-            <form onSubmit={onFormSubmit}>
-                <input type="text" name="option"/>
-                <button>Add option</button>
-            </form>
-        </div>
-    );
-    ReactDOM.render(template,appRoot);
-
+const onMakeDecision = () => {
+  const randomNum = Math.floor(Math.random() * app.options.length);
+  const option = app.options[randomNum];
+  alert(option);
 };
-reactRendercall();
+
+const appRoot = document.getElementById('app');
+
+const render = () => {
+  const template = (
+    <div>
+      <h1>{app.title}</h1>
+      {app.subtitle && <p>{app.subtitle}</p>}
+      <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
+      <button disabled={app.options.length === 0} onClick={onMakeDecision}>What should I do?</button>
+      <button onClick={onRemoveAll}>Remove All</button>
+      <ol>
+        {
+          app.options.map((option) => <li key={option}>{option}</li>)
+        }
+      </ol>
+      <form onSubmit={onFormSubmit}>
+        <input type="text" name="option" />
+        <button>Add Option</button>
+      </form>
+    </div>
+  );
+
+  ReactDOM.render(template, appRoot);
+};
+
+render();
